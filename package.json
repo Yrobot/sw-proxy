@@ -1,0 +1,26 @@
+{
+  "name": "@yrobot/sw-proxy",
+  "version": "1.0.0",
+  "description": "a client proxy for all url requests in the website, based on service worker.",
+  "main": "/build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yrobot/sw-proxy.git"
+  },
+  "keywords": [
+    "serive-worker",
+    "proxy",
+    "url",
+    "resource",
+    "offline"
+  ],
+  "author": "yrobot",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Yrobot/sw-proxy/issues"
+  },
+  "homepage": "https://github.com/Yrobot/sw-proxy#readme"
+}
