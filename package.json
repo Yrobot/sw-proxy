@@ -4,7 +4,7 @@
   "description": "a client proxy for all url requests in the website, based on service worker.",
   "main": "/build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/Yrobot/sw-proxy/issues"
   },
-  "homepage": "https://github.com/Yrobot/sw-proxy#readme"
+  "homepage": "https://github.com/Yrobot/sw-proxy#readme",
+  "dependencies": {
+    "vite": "^4.1.1"
+  },
+  "devDependencies": {
+    "vite-tsconfig-paths": "^4.0.5"
+  }
 }

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "sw-proxy": [
+        "./proxy"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+}
