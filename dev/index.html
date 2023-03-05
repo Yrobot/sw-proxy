@@ -5,8 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yrobot/sw-proxy demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @layer components {
+        .btn {
+          @apply bg-black rounded py-2 px-4 font-bold text-white;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div class="flex h-screen flex-col items-center justify-center space-y-12">
+      <div
+        class="flex w-full flex-none items-center justify-center space-x-8 py-4"
+        id="buttons-container"
+      >
+        <!-- <button class="btn">GET</button>
+        <button class="btn">POST</button>
+        <button class="btn">IMAGE</button>
+        <button class="btn">HTML</button>
+        <button class="btn">JS</button>
+        <button class="btn">CSS</button> -->
+      </div>
+    </div>
+
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

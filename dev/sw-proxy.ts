@@ -1,1 +1,1 @@
-import "../proxy/sw";
+import "@yrobot/sw-proxy/sw";

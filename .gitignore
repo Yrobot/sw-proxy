@@ -5,6 +5,9 @@
 /build
 /dist
 
+# run time tamp files
+/dev/public/sw-proxy.js
+
 # misc
 .DS_Store
 

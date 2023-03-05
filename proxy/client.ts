@@ -1,4 +1,9 @@
-import { waitUntil } from "utilities";
+import {
+  TYPE,
+  MessageType,
+  FetchHandlerParams,
+  ResponseConstructor,
+} from "./variables";
 
 class constructorOptions {
   key?: string;
@@ -6,19 +11,34 @@ class constructorOptions {
 
 interface ProxyItem {
   url: string;
-  response: Response;
+  response:
+    | ResponseConstructor
+    | ((params: FetchHandlerParams) => Promise<ResponseConstructor>);
+}
+
+interface Proxy {
+  list: ProxyItem[];
 }
 
 export default class SWProxy {
   private key = "/sw-proxy.js"; // the service worker file path
   private sw: ServiceWorker | null = null; // the sw-proxy service worker instance
-  private proxyList: ProxyItem[] = new Proxy<ProxyItem[]>([], {
-    set: (target, key, value: ProxyItem[]) => {
-      target = value;
-      console.log(`proxyList updated:`, value);
-      return true;
-    },
-  }); // the proxy list
+  private proxy: Proxy = new Proxy<Proxy>(
+    { list: [] },
+    {
+      set: (target, key, value: ProxyItem[]) => {
+        if (key === "list") {
+          target.list = value;
+          console.log(`proxyList updated:`, value);
+          this.postMessage({
+            type: TYPE.UPDATE_PROXY_URLS,
+            data: value.map(({ url }) => url),
+          });
+        }
+        return true;
+      },
+    }
+  ); // the proxy list
 
   constructor(options?: constructorOptions) {
     if (options) {
@@ -41,6 +61,45 @@ export default class SWProxy {
       );
   };
 
+  private onMessage = (event: MessageEvent<MessageType<any>>): void => {
+    const type = event.data?.type;
+    const data = event.data?.data;
+    const port = event.ports?.[0];
+    switch (type) {
+      case TYPE.FETCH_HANDLER:
+        this.fetchHandler(data, port);
+        break;
+    }
+  };
+
+  private listenMessage = (): void => {
+    navigator.serviceWorker.addEventListener("message", this.onMessage);
+  };
+
+  private unListenMessage = (): void => {
+    navigator.serviceWorker.removeEventListener("message", this.onMessage);
+  };
+
+  postMessage = (data: MessageType<any>): void => {
+    this.readyCheck();
+    this.sw?.postMessage(data);
+  };
+
+  private fetchHandler = async (
+    params: FetchHandlerParams,
+    port: MessagePort
+  ) => {
+    for (let index = 0; index < this.proxy.list.length; index++) {
+      const { url, response } = this.proxy.list[index];
+      if (url === params.pathname) {
+        const res =
+          typeof response === "function" ? await response(params) : response;
+        port.postMessage(res);
+        return;
+      }
+    }
+  };
+
   /**
    * @description register the service worker, and wait until it is active
    * @author Yrobot
@@ -53,19 +112,26 @@ export default class SWProxy {
   ): Promise<ServiceWorker> =>
     new Promise((resolve, reject) => {
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register(this.key, registerOptions);
+        this.listenMessage();
 
-        // check if service worker is active
-        waitUntil(() => !!navigator.serviceWorker.controller, {
-          max: 9000,
-        })
-          .then(() => {
-            console.log("sw-proxy is active");
-            this.sw = navigator.serviceWorker.controller;
-            resolve(navigator.serviceWorker.controller);
-          })
-          .catch((err) => {
-            reject(`serviceWorker register ${this.key} fail: ${err.message}`);
+        navigator.serviceWorker
+          .register(this.key, registerOptions)
+          .then(
+            (registration) =>
+              new Promise<ServiceWorker>((resolve) => {
+                if (registration.active) resolve(registration.active);
+                const sw =
+                  registration.installing ||
+                  registration.waiting ||
+                  registration.active;
+                sw.onstatechange = () => {
+                  if (sw.state === "activated") resolve(sw);
+                };
+              })
+          )
+          .then((sw: ServiceWorker) => {
+            this.sw = sw;
+            resolve(sw);
           });
       } else {
         reject("serviceWorker not support in this browser");
@@ -74,31 +140,29 @@ export default class SWProxy {
 
   set = async (proxyList: ProxyItem[]): Promise<void> => {
     this.readyCheck();
-    this.proxyList = proxyList;
+    this.proxy.list = proxyList;
   };
 
   add = async (proxyList: ProxyItem[]): Promise<void> => {
     this.readyCheck();
-    this.proxyList = [...this.proxyList, ...proxyList];
+    this.proxy.list = [...this.proxy.list, ...proxyList];
   };
 
   remove = async (urls: string[]): Promise<void> => {
     this.readyCheck();
-    this.proxyList = this.proxyList.filter((item) => !urls.includes(item.url));
+    this.proxy.list = this.proxy.list.filter(
+      (item) => !urls.includes(item.url)
+    );
   };
 
   clear = async (): Promise<void> => {
     this.readyCheck();
-    this.proxyList = [];
+    this.proxy.list = [];
   };
 
   unregister = async (): Promise<void> => {
     this.readyCheck();
 
-    await navigator.serviceWorker.getRegistrations().then((registrations) => {
-      for (const registration of registrations) {
-        if (registration.active === this.sw) console.log(registration);
-      }
-    });
+    this.unListenMessage();
   };
 }
