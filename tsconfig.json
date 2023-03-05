@@ -3,6 +3,9 @@
     "paths": {
       "sw-proxy": [
         "./proxy"
+      ],
+      "utilities": [
+        "./utilities"
       ]
     }
   },
