@@ -13,6 +13,21 @@ const swProxy = new SWProxy({
         body: "hello world" + (parseInt(`${Date.now() / 1000}`, 10) % 1000),
       }),
     },
+    {
+      url: "/post",
+      method: "POST",
+      response: async () => ({
+        body: JSON.stringify({
+          time: new Date().toLocaleString(),
+          name: "sw-proxy",
+        }),
+        options: {
+          headers: {
+            "content-type": "application/json",
+          },
+        },
+      }),
+    },
   ]);
 })();
 

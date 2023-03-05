@@ -1,12 +1,13 @@
 # dependencies
-/node_modules
+node_modules
 
 # production
-/build
-/dist
+build
+dist
 
 # run time tamp files
-/dev/public/sw-proxy.js
+dev/public/sw-proxy.js
+public/sw-proxy.js
 
 # misc
 .DS_Store

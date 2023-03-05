@@ -1,19 +1,7 @@
-import {
-  TYPE,
-  MessageType,
-  FetchHandlerParams,
-  ResponseConstructor,
-} from "./variables";
+import { TYPE, MessageType, FetchHandlerParams, ProxyItem } from "./variables";
 
 class constructorOptions {
   key?: string;
-}
-
-interface ProxyItem {
-  url: string;
-  response:
-    | ResponseConstructor
-    | ((params: FetchHandlerParams) => Promise<ResponseConstructor>);
 }
 
 interface Proxy {
@@ -29,10 +17,9 @@ export default class SWProxy {
       set: (target, key, value: ProxyItem[]) => {
         if (key === "list") {
           target.list = value;
-          console.log(`proxyList updated:`, value);
           this.postMessage({
             type: TYPE.UPDATE_PROXY_URLS,
-            data: value.map(({ url }) => url),
+            data: value.map(({ url, method }) => ({ url, method })),
           });
         }
         return true;
@@ -150,6 +137,7 @@ export default class SWProxy {
 
   remove = async (urls: string[]): Promise<void> => {
     this.readyCheck();
+
     this.proxy.list = this.proxy.list.filter(
       (item) => !urls.includes(item.url)
     );

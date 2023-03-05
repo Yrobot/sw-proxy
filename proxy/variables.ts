@@ -17,3 +17,16 @@ export interface ResponseConstructor {
   body: string;
   options?: ResponseInit;
 }
+
+export const urlPurify = (url: string): string => {
+  const { origin, pathname } = new URL(url, location.origin);
+  return `${origin}${pathname}`;
+};
+
+export interface ProxyItem {
+  url: string;
+  method?: string;
+  response:
+    | ResponseConstructor
+    | ((params: FetchHandlerParams) => Promise<ResponseConstructor>);
+}
