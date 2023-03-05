@@ -17,6 +17,14 @@
 
 ## Demo
 
+## Design
+
+Thanks to the Service Worker, we can intercept all requests in the website, and then we can return the response we want.
+
+But, as for the secure reason, we can't register the Service Worker from a inline data url, so you have to serve the Service Worker by yourself, But i can handle the logic inside the Service Worker.
+
+So i will split the repo into two parts, one is the `client` part, which handle the logic inside html, and the other is the `sw` part, which handle the logic inside the Service Worker.
+
 ## Usage
 
 ### 1. Install `@yrobot/sw-proxy`
@@ -25,10 +33,18 @@
 yarn add @yrobot/sw-proxy
 ```
 
-### 2. Import and Use it
+### 2. Import `@yrobot/sw-proxy/sw`
+
+`service-worker.ts`
 
 ```ts
-import swProxy from "@yrobot/sw-proxy";
+import "@yrobot/sw-proxy/sw";
+```
+
+### 3. Import `@yrobot/sw-proxy/client` and use it
+
+```ts
+import SWProxy from "@yrobot/sw-proxy/client";
 
 (async () => {
   // init the swProxy

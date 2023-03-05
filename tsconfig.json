@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "sw-proxy": [
-        "./proxy"
+      "@yrobot/sw-proxy/*": [
+        "./proxy/*"
       ],
       "utilities": [
         "./utilities"

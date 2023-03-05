@@ -9,7 +9,9 @@ export default defineConfig({
     outDir: "../dist",
   },
   plugins: [
-    tsconfigPaths(),
+    tsconfigPaths({
+      root: resolve(__dirname, "../"),
+    }),
     nativeSW({
       entries: [
         {
