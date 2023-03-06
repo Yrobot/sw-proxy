@@ -11,12 +11,14 @@ const worker: ServiceWorkerGlobalScope = self as any;
 
 let urls: Pick<ProxyItem, "url" | "method">[] = [];
 
+let client: Client | null = null;
+
 worker.addEventListener("message", (event: MessageEvent<MessageType<any>>) => {
   const type = event.data?.type;
   const data = event.data?.data;
-  // const client = event.source;
   switch (type) {
     case TYPE.UPDATE_PROXY_URLS:
+      client = event.source as any;
       urls = data?.map(({ url, method = "GET" }) => ({
         url: urlPurify(url),
         method,
@@ -41,28 +43,27 @@ worker.addEventListener("fetch", (event) => {
   console.log(
     `[sw-proxy] fetch`,
     urls,
-    urls.findIndex(
-      ({ url, method }) =>
-        url === urlPurify(request.url) && method === request.method
-    ) > -1
+    !!client &&
+      urls.findIndex(
+        ({ url, method }) =>
+          url === urlPurify(request.url) && method === request.method
+      ) > -1
   );
 
   if (
+    !!client &&
     urls.findIndex(
       ({ url, method }) =>
         url === urlPurify(request.url) && method === request.method
     ) > -1
   ) {
-    const clientId = event.clientId;
     event.respondWith(
       new Promise<Response>(async (resolve) => {
         const channel = new MessageChannel();
         channel.port1.onmessage = (event) => {
-          console.log(event.data);
           const { body, options } = event.data as ResponseConstructor;
           resolve(new Response(body, { status: 200, ...options }));
         };
-        const client = await worker.clients.get(clientId);
         const message: MessageType<FetchHandlerParams> = {
           type: TYPE.FETCH_HANDLER,
           data: {

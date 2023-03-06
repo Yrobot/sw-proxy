@@ -10,13 +10,13 @@ const html = `
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>service worker demo</title>
+    <title>sw-proxy</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <img src="/images/yrobot" />
+    <img src="/images/yrobot.png" />
     <div class="title">
-      Hi, This is <span class="red">Service Worker Demo</span>
+      Hi, This is <span class="red">sw-proxy</span>
     </div>
   </body>
 </html>`;
@@ -118,6 +118,11 @@ const swProxy = new SWProxy({
       },
     },
   ]);
+
+  const iframe = document.createElement("iframe");
+  iframe.className = "w-full h-full";
+  iframe.src = "/iframe/index.html";
+  document.getElementById("window-content").appendChild(iframe);
 })();
 
 const buttons = [
