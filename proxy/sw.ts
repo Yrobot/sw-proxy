@@ -38,7 +38,6 @@ worker.addEventListener("activate", (event) => {
 worker.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
-  const context = { request, url };
 
   console.log(
     `[sw-proxy] fetch`,
@@ -57,6 +56,11 @@ worker.addEventListener("fetch", (event) => {
         url === urlPurify(request.url) && method === request.method
     ) > -1
   ) {
+    let search: Record<string, string> = {};
+    for (const [key, value] of url.searchParams.entries()) {
+      search[key] = value;
+    }
+
     event.respondWith(
       new Promise<Response>(async (resolve) => {
         const channel = new MessageChannel();
@@ -68,6 +72,8 @@ worker.addEventListener("fetch", (event) => {
           type: TYPE.FETCH_HANDLER,
           data: {
             pathname: url.pathname,
+            url: request.url,
+            search,
           },
         };
         client.postMessage(message, [channel.port2]);

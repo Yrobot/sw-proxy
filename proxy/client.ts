@@ -69,7 +69,7 @@ export default class SWProxy {
 
   postMessage = (data: MessageType<any>): void => {
     this.readyCheck();
-    this.sw?.postMessage(data);
+    this.sw.postMessage(data);
   };
 
   private fetchHandler = async (

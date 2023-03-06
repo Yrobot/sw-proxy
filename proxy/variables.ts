@@ -11,18 +11,20 @@ export interface MessageType<T> {
 
 export interface FetchHandlerParams {
   pathname: string;
+  url: string;
+  search: Record<string, string>;
 }
 
 export interface ResponseConstructor {
   body:
     | string
+    | null
     | Blob
     | ArrayBuffer
-    | ArrayBufferView
+    | DataView
     | FormData
-    | URLSearchParams
-    | ReadableStream<Uint8Array>
-    | null;
+    | ReadableStream
+    | URLSearchParams;
   options?: ResponseInit;
 }
 
@@ -31,8 +33,10 @@ export const urlPurify = (url: string): string => {
   return `${origin}${pathname}`;
 };
 
+type ProxyURL = string;
+
 export interface ProxyItem {
-  url: string;
+  url: ProxyURL;
   method?: string;
   response:
     | ResponseConstructor

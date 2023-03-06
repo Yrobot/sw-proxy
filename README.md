@@ -53,34 +53,52 @@ import SWProxy from "@yrobot/sw-proxy/client";
   // set the proxy list
   await swProxy.set([
     {
-      url: "/style.css",
-      response: new Response(...)
+      url: "/get",
+      response: {
+        body: "hello world",
+      },
     },
     {
-      url: "/index.js",
-      response: new Response(...)
+      url: "/post",
+      method: "POST",
+      response: async () => ({
+        body: JSON.stringify({
+          time: new Date().toLocaleString(),
+          name: "sw-proxy",
+        }),
+        options: {
+          headers: {
+            "content-type": "application/json",
+          },
+        },
+      }),
+    },
+    {
+      url: "/image.png",
+      response: {
+        body: new Blob(), // image blob
+      },
     },
   ] as ProxyItem[]);
 
   // add proxy item
   await swProxy.add([
     {
-      url: "/image.png",
-      response: new Response(...)
-    }
-  ] as ProxyItem[])
+      url: "/image2.png",
+      response: {
+        body: new Blob(), // image blob
+      },
+    },
+  ] as ProxyItem[]);
 
   // remove proxy item
-  await swProxy.remove([
-    '/style.css'
-  ] as ProxyURL[])
+  await swProxy.remove(["/image.png"] as ProxyURL[]);
 
   // clear all proxy
-  await swProxy.clear()
+  await swProxy.clear();
 
   // unregister the seProxy
-  await swProxy.unregister()
-
+  await swProxy.unregister();
 })();
 ```
 
@@ -95,9 +113,30 @@ type ProxyURL = string; // support RegExp later maybe
 ### ProxyItem
 
 ```ts
+interface FetchHandlerParams {
+  pathname: string;
+  url: string;
+  search: Record<string, string>;
+}
+
+interface ResponseConstructor {
+  body:
+    | string
+    | null
+    | Blob
+    | ArrayBuffer
+    | DataView
+    | FormData
+    | ReadableStream
+    | URLSearchParams;
+  options?: ResponseInit;
+}
+
 interface ProxyItem {
   url: ProxyURL;
   method?: string;
-  response: Response;
+  response:
+    | ResponseConstructor
+    | ((params: FetchHandlerParams) => Promise<ResponseConstructor>);
 }
 ```

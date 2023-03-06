@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "downlevelIteration": true,
     "paths": {
       "@yrobot/sw-proxy/*": [
         "./proxy/*"
