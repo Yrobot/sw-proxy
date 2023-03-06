@@ -14,7 +14,15 @@ export interface FetchHandlerParams {
 }
 
 export interface ResponseConstructor {
-  body: string;
+  body:
+    | string
+    | Blob
+    | ArrayBuffer
+    | ArrayBufferView
+    | FormData
+    | URLSearchParams
+    | ReadableStream<Uint8Array>
+    | null;
   options?: ResponseInit;
 }
 
