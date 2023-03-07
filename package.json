@@ -2,11 +2,15 @@
   "name": "@yrobot/sw-proxy",
   "version": "1.0.0",
   "description": "a client proxy for all url requests in the website, based on service worker.",
-  "main": "/build/index.js",
+  "exports": {
+    "./sw": "./build/sw.js",
+    "./client": "./build/client.js"
+  },
   "scripts": {
     "dev:sw": "rollup -w --config ./dev/rollup.config.ts --configPlugin typescript",
     "dev": "yarn dev:sw & vite -c ./dev/vite.config.ts",
-    "build": "vite build -c ./dev/vite.config.ts"
+    "build": "yarn clear & rollup -c ./package.rollup.config.ts --configPlugin typescript",
+    "clear": "rm -rf ./build & rm ./client.d.ts ./sw.d.ts"
   },
   "repository": {
     "type": "git",
@@ -30,12 +34,11 @@
     "vite": "^4.1.1"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/node": "^18.14.6",
     "rollup-plugin-ts": "^3.2.0",
-    "typescript": "^4.9.5",
-    "vite-plugin-native-sw": "^1.2.1",
-    "vite-tsconfig-paths": "^4.0.5"
+    "typescript": "^4.9.5"
   }
 }

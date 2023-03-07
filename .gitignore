@@ -5,6 +5,8 @@ node_modules
 build
 dist
 
+**.d.ts
+
 # run time tamp files
 dev/public/sw-proxy.js
 public/sw-proxy.js

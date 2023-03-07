@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "downlevelIteration": true,
+    "target": "ESNext",
+    "declaration": true,
+    "declarationDir": "./",
     "paths": {
       "@yrobot/sw-proxy/*": [
         "./proxy/*"
@@ -14,6 +16,7 @@
     "**/*.ts",
   ],
   "exclude": [
+    "**/*.config.ts",
     "node_modules"
   ],
 }
