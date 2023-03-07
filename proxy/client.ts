@@ -1,5 +1,12 @@
 import { TYPE, MessageType, FetchHandlerParams, ProxyItem } from "./variables";
 
+export {
+  ProxyURL,
+  ProxyItem,
+  FetchHandlerParams,
+  ResponseConstructor,
+} from "./variables";
+
 class constructorOptions {
   key?: string;
 }

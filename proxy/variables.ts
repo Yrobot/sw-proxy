@@ -33,7 +33,7 @@ export const urlPurify = (url: string): string => {
   return `${origin}${pathname}`;
 };
 
-type ProxyURL = string;
+export type ProxyURL = string;
 
 export interface ProxyItem {
   url: ProxyURL;
