@@ -39,16 +39,6 @@ worker.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  console.log(
-    `[sw-proxy] fetch`,
-    urls,
-    !!client &&
-      urls.findIndex(
-        ({ url, method }) =>
-          url === urlPurify(request.url) && method === request.method
-      ) > -1
-  );
-
   if (
     !!client &&
     urls.findIndex(
