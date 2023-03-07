@@ -275,6 +275,13 @@ crosspath@^2.0.0:
   dependencies:
     "@types/node" "^17.0.36"
 
+debug@^4.1.1:
+  version "4.3.4"
+  resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
+  dependencies:
+    ms "2.1.2"
+
 deepmerge@^4.2.2:
   version "4.3.0"
   resolved "https://registry.npmjs.org/deepmerge/-/deepmerge-4.3.0.tgz#65491893ec47756d44719ae520e0e2609233b59b"
@@ -348,6 +355,11 @@ glob@^8.0.3:
     inherits "2"
     minimatch "^5.0.1"
     once "^1.3.0"
+
+globrex@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/globrex/-/globrex-0.1.2.tgz#dd5d9ec826232730cd6793a5e33a9302985e6098"
+  integrity sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==
 
 has@^1.0.3:
   version "1.0.3"
@@ -425,6 +437,11 @@ minimatch@^5.0.1:
   integrity sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==
   dependencies:
     brace-expansion "^2.0.1"
+
+ms@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
+  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 nanoid@^3.3.4:
   version "3.3.4"
@@ -535,6 +552,11 @@ ts-clone-node@^2.0.4:
   dependencies:
     compatfactory "^2.0.9"
 
+tsconfck@^2.0.1:
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/tsconfck/-/tsconfck-2.0.3.tgz#47b79fc6be3c5ec6ec9b3862d1c959e85038b117"
+  integrity sha512-o3DsPZO1+C98KqHMdAbWs30zpxD30kj8r9OLA4ML1yghx4khNDzaaShNalfluh8ZPPhzKe3qyVCP1HiZszSAsw==
+
 tslib@^2.4.1:
   version "2.5.0"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.5.0.tgz#42bfed86f5787aeb41d031866c8f402429e0fddf"
@@ -557,6 +579,15 @@ update-browserslist-db@^1.0.10:
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
+
+vite-tsconfig-paths@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.npmjs.org/vite-tsconfig-paths/-/vite-tsconfig-paths-4.0.5.tgz#c7c54e2cf7ccc5e600db565cecd7b368a1fa8889"
+  integrity sha512-/L/eHwySFYjwxoYt1WRJniuK/jPv+WGwgRGBYx3leciR5wBeqntQpUE6Js6+TJemChc+ter7fDBKieyEWDx4yQ==
+  dependencies:
+    debug "^4.1.1"
+    globrex "^0.1.2"
+    tsconfck "^2.0.1"
 
 vite@^4.1.1:
   version "4.1.1"

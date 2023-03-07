@@ -4,9 +4,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   root: "dev",
-  build: {
-    outDir: "../dist",
-  },
+  build: {},
+  server: { open: true },
   plugins: [
     tsconfigPaths({
       root: resolve(__dirname, "../"),

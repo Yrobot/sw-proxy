@@ -11,7 +11,7 @@ export default {
   },
   plugins: [
     ts({
-      tsconfig: "tsconfig.json",
+      tsconfig: "dev/tsconfig.json",
     }),
     nodeResolve(),
   ],
