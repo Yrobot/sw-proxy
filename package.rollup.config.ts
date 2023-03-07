@@ -3,23 +3,31 @@ import ts from "rollup-plugin-ts";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 
-const inputs = [
+const configs = [
   {
-    client: "proxy/client.ts",
+    input: {
+      client: "proxy/client.ts",
+    },
+    output: {
+      format: "es",
+    },
   },
   {
-    sw: "proxy/sw.ts",
+    input: {
+      sw: "proxy/sw.ts",
+    },
   },
 ];
 
 /** @type {import('rollup').RollupOptions} */
-export default inputs.map((input) => ({
+export default configs.map(({ input = {}, output = {} }) => ({
   input,
   output: {
     dir: "build",
     format: "cjs",
     entryFileNames: "[name].js",
     chunkFileNames: "[name].js",
+    ...output,
   },
   plugins: [
     ts({
