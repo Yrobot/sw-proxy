@@ -94,6 +94,20 @@ export default class SWProxy {
     }
   };
 
+  private getRegistration =
+    async (): Promise<ServiceWorkerRegistration | null> =>
+      navigator.serviceWorker
+        .getRegistrations()
+        .then(
+          (registrations) =>
+            registrations.find(
+              (registration) =>
+                (registration.installing ||
+                  registration.waiting ||
+                  registration.active) === this.sw
+            ) || null
+        );
+
   /**
    * @description register the service worker, and wait until it is active
    * @author Yrobot
@@ -123,7 +137,7 @@ export default class SWProxy {
                 };
               })
           )
-          .then((sw: ServiceWorker) => {
+          .then(async (sw: ServiceWorker) => {
             this.sw = sw;
             resolve(sw);
           });
@@ -159,5 +173,8 @@ export default class SWProxy {
     this.readyCheck();
 
     this.unListenMessage();
+
+    const registration = await this.getRegistration();
+    if (registration) await registration.unregister();
   };
 }
