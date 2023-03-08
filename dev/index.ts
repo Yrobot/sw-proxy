@@ -119,6 +119,8 @@ const swProxy = new SWProxy({
     },
   ]);
 
+  console.log(swProxy.list());
+
   const iframe = document.createElement("iframe");
   iframe.className = "w-full h-full";
   iframe.src = "/iframe/index.html";

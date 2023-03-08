@@ -55,6 +55,14 @@ export default class SWProxy {
       );
   };
 
+  /**
+   * @description handle the message from service worker
+   * @author Yrobot
+   * @date 08/03/2023
+   * @private
+   * @param {MessageEvent<MessageType<any>>} event
+   * @memberof SWProxy
+   */
   private onMessage = (event: MessageEvent<MessageType<any>>): void => {
     const type = event.data?.type;
     const data = event.data?.data;
@@ -79,6 +87,15 @@ export default class SWProxy {
     this.sw.postMessage(data);
   };
 
+  /**
+   * @description handle the fetch event from service workers
+   * @author Yrobot
+   * @date 08/03/2023
+   * @private
+   * @param {FetchHandlerParams} params
+   * @param {MessagePort} port
+   * @memberof SWProxy
+   */
   private fetchHandler = async (
     params: FetchHandlerParams,
     port: MessagePort
@@ -94,6 +111,13 @@ export default class SWProxy {
     }
   };
 
+  /**
+   * @description get the registration of the service worker based on this.sw
+   * @author Yrobot
+   * @date 08/03/2023
+   * @private
+   * @memberof SWProxy
+   */
   private getRegistration =
     async (): Promise<ServiceWorkerRegistration | null> =>
       navigator.serviceWorker
@@ -168,6 +192,8 @@ export default class SWProxy {
     this.readyCheck();
     this.proxy.list = [];
   };
+
+  list = (): ProxyItem[] => [...this.proxy.list];
 
   unregister = async (): Promise<void> => {
     this.readyCheck();

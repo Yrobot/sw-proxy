@@ -94,6 +94,9 @@ import SWProxy from "@yrobot/sw-proxy/client";
   // remove proxy item
   await swProxy.remove(["/image.png"] as ProxyURL[]);
 
+  // get current active proxy list
+  swProxy.list();
+
   // clear all proxy
   await swProxy.clear();
 
