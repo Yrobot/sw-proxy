@@ -1,6 +1,5 @@
 {
   "name": "@yrobot/sw-proxy",
-  "private": false,
   "version": "1.0.0",
   "description": "a client proxy for all url requests in the website, based on service worker.",
   "exports": {
@@ -16,6 +15,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Yrobot/sw-proxy.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "serive-worker",
