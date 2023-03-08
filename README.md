@@ -17,6 +17,8 @@
 
 ## Demo
 
+[Vanilla TS + Vite](https://codesandbox.io/p/github/yrobot-demo/sw-proxy-demo)
+
 ## Design
 
 Thanks to the Service Worker, we can intercept all requests in the website, and then we can return the response we want.
