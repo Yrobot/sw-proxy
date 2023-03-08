@@ -1,6 +1,6 @@
 import { TYPE, MessageType, FetchHandlerParams, ProxyItem } from "./variables";
 
-export {
+export type {
   ProxyURL,
   ProxyItem,
   FetchHandlerParams,
